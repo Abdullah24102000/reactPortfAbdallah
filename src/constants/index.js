@@ -38,6 +38,7 @@ export const PROJECTS = [
     description:
       "Designed and developed a hotel room booking website with a team during my ITI course. The site allows users to search, view, and book available rooms easily.",
     technologies: ["HTML", "BootStrap"],
+    link:["https://abdullah24102000.github.io/HotelBootstrap/"],
   },
   {
     title: "Social Post Feed",
@@ -52,6 +53,7 @@ export const PROJECTS = [
     description:
       "Developed a simple website that shares study materials and scientific content for students in my faculty.",
     technologies: ["HTML", "CSS", "JS"],
+    link:["https://abdullah24102000.github.io/ArishUniv/"],
   },
   {
     title: "To Do List",
