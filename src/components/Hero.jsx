@@ -1,4 +1,4 @@
-import profilePic from "../assets/me.jpg";
+import profilePic from "../assets/Me.jpg";
 import {HERO_CONTENT} from "../constants/index.js";
 import { motion } from "motion/react";
 
