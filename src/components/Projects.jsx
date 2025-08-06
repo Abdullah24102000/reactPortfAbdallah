@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PROJECTS } from '../constants';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -6,6 +6,9 @@ const ProjectsSlider = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const containerRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   useEffect(() => {
     if (isHovered) return;
@@ -16,23 +19,49 @@ const ProjectsSlider = () => {
   }, [isHovered]);
 
   const goTo = (index) => {
-    setActiveIndex(index);
+    setActiveIndex((index + PROJECTS.length) % PROJECTS.length);
   };
 
-  const handleCardClick = (link) => {
-    window.open(link, '_blank');
+  const handleCardClick = (link, isActive) => {
+    if (isActive) {
+      window.open(link, '_blank');
+    }
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const deltaX = touchStartX.current - touchEndX.current;
+    if (deltaX > 50) {
+      goTo(activeIndex + 1);
+    } else if (deltaX < -50) {
+      goTo(activeIndex - 1);
+    }
   };
 
   return (
     <div className="relative w-full flex items-center justify-center py-10">
       <button
-        onClick={() => goTo((activeIndex - 1 + PROJECTS.length) % PROJECTS.length)}
-        className="absolute left-0 z-10 bg-black/50 text-white px-4 py-2"
+        onClick={() => goTo(activeIndex - 1)}
+        className="absolute left-0 z-50 bg-black/70 text-white px-4 py-2 rounded-r"
+        style={{ userSelect: 'none' }}
       >
         ◀
       </button>
 
-      <div className="relative w-[300px] h-[450px] overflow-visible flex items-center justify-center">
+      <div
+        ref={containerRef}
+        className="relative w-[300px] h-[450px] overflow-visible flex items-center justify-center"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {PROJECTS.map((project, index) => {
           const isActive = index === activeIndex;
           const isHovered = hoveredIndex === index;
@@ -54,7 +83,7 @@ const ProjectsSlider = () => {
                 filter: isActive ? 'brightness(1)' : 'brightness(0.6)',
               }}
               transition={{ duration: 0.6 }}
-              onClick={() => isActive && handleCardClick(project.link)}
+              onClick={() => handleCardClick(project.link, isActive)}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
@@ -86,8 +115,9 @@ const ProjectsSlider = () => {
       </div>
 
       <button
-        onClick={() => goTo((activeIndex + 1) % PROJECTS.length)}
-        className="absolute right-0 z-10 bg-black/50 text-white px-4 py-2"
+        onClick={() => goTo(activeIndex + 1)}
+        className="absolute right-0 z-50 bg-black/70 text-white px-4 py-2 rounded-l"
+        style={{ userSelect: 'none' }}
       >
         ▶
       </button>
