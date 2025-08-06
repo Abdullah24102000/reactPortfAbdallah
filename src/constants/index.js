@@ -46,6 +46,7 @@ export const PROJECTS = [
     description:
       "Built a small social media feed using React.js. Users can add posts with images, like posts, comment, delete posts, and see the total number of likes for each post.",
     technologies: ["HTML", "CSS", "ES6+(JS)","ReactJS"],
+    link:["https://post-feed-eta.vercel.app/"],
   },
   {
     title: "Studying Material Website",
@@ -61,6 +62,7 @@ export const PROJECTS = [
     description:
       "Developed a simple to-do list web application using React.js. Tasks are saved with localStorage, allowing users to add, edit, and mark tasks as complete, and keep their list even after closing the browser.",
     technologies: ["HTML", "CSS", "ES6+(JS)","ReactJS"],
+    link:["https://react-todo-ashen-eight.vercel.app/"],
   },
 ];
 
